@@ -1,4 +1,4 @@
-package com.wordpress.httpbimajatiwijaya.event;
+package com.app.main.event;
 
 import org.junit.Test;
 
