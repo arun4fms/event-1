@@ -26,7 +26,7 @@ public class EventDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_EVENT_TABLE = "CREATE TABLE " + EventEntry.TABLE_NAME + " (" +
                 EventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 EventEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                EventEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
+                EventEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL " +
                 "); ";
 
         // COMPLETED (7) Execute the query by calling execSQL on sqLiteDatabase and pass the string query SQL_CREATE_WAITLIST_TABLE

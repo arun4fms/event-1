@@ -14,4 +14,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <!-- user -->
+    <string name="default_username">[Username]</string>
+    <string name="default_email">\?</string>
+    <!-- event -->
+    <string name="default_event_name">[Username]</string>
+    <string name="default_description">\?</string>
 </resources>
