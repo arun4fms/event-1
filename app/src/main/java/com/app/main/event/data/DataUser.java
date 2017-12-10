@@ -12,5 +12,6 @@ public class DataUser {
         public static final String COLUMN_USERNAME = "username";
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_PASSWORD = "password";
+        public static final String COLUMN_CREATETIME = "create_time";
     }
 }
