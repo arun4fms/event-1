@@ -35,10 +35,6 @@ public class EventListActivity extends AppCompatActivity {
         // because you will be adding restaurant customers
         eD = dbHelper.getWritableDatabase();
 
-        // COMPLETED (4) call insertFakeData in TestUtil and pass the database reference mDb
-        //Fill the database with fake data
-        TestUtil.insertFakeData(eD);
-
         // COMPLETED (7) Run the getAllGuests function and store the result in a Cursor variable
         Cursor cursor = getAllGuests();
 

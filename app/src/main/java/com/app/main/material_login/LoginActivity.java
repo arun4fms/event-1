@@ -29,10 +29,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.app.main.event.R;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -77,7 +83,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    try {
+                        attemptLogin();
+                    } catch (XmlRpcException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
                 return false;
@@ -88,7 +100,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                try {
+                    attemptLogin();
+                } catch (XmlRpcException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -145,11 +163,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptLogin() throws XmlRpcException, MalformedURLException {
         if (mAuthTask != null) {
             return;
         }
-
+        String url = "http://10.0.2.2:8079"; // work with odoo.com account!!
+        String db = "odoo9";
+        System.out.println("Get database list");
+        System.out.println("Login");
+        System.out.println("--------------");
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -157,7 +179,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
         boolean cancel = false;
         View focusView = null;
 
@@ -178,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!");
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -186,15 +207,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+//            showProgress(true);
+            System.out.println("???");
+            XmlRpcClient client = new XmlRpcClient();
+            XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+            config.setEnabledForExtensions(true);
+            config.setServerURL(new URL(url+"/xmlrpc/2/common"));
+            client.setConfig(config);
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>");
+            //Connect
+            //Object[] empty = null; // Ok
+            //Object[] params = new Object[] {db,login,password, empty}; // Ok
+            Object[] params = new Object[] {db,email,password}; // Ok & simple
+            Object uid = client.execute("login", params);
+            System.out.println("VVVVF");
+            if (uid instanceof Integer) {
+                System.out.println(uid +"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            }
+            else{
+                System.out.println("FAILED");
+            }
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -346,6 +386,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+    private class testLogin extends AsyncTask<URL, Integer, Long> {
+        protected Long doInBackground(URL... urls) {
+            int count = urls.length;
+            long totalSize = 0;
+            return totalSize;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+//            setProgressPercent(progress[0]);
+            System.out.println("SSSSSSSSSSSSS");
+        }
+
+        protected void onPostExecute(Long result) {
+            showProgress(true);
         }
     }
 }
