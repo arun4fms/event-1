@@ -33,6 +33,9 @@ public class EventListActivity extends AppCompatActivity {
         // COMPLETED (3) Get a writable database reference using getWritableDatabase and store it in mDb
         // Keep a reference to the mDb until paused or killed. Get a writable database
         // because you will be adding restaurant customers
+        // COMPLETED (4) call insertFakeData in TestUtil and pass the database reference mDb
+        //Fill the database with fake data
+        TestUtil.insertFakeData(eD);
         eD = dbHelper.getWritableDatabase();
 
         // COMPLETED (7) Run the getAllGuests function and store the result in a Cursor variable

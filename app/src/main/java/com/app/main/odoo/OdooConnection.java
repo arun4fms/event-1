@@ -10,28 +10,36 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
  */
 
 public class OdooConnection {
-    protected String url = "";
+    protected URL url;
     protected String password = "";
     protected String login = "";
 
+    public static void main(String[] args) {
+//        String url = ""; // work with odoo.com account!!
+//        String db = "odoo9";
+//        String username = "admin";
+//        String password = "admin";
+//        System.out.println("Get database list");
+//        System.out.println("Login");
+//        System.out.println("--------------");
+//        int uid = login(url,db,username,password);
+//        if (uid >0) {
+//            System.out.printf(String.valueOf(uid));
+//            System.out.println("Login Ok");
+//        } else {
+//            System.out.println("Login Fail");
+//        }
+        try{
+            URL url=new URL("http://localhost:8079");
 
-    public static void main(String[] args) throws MalformedURLException, XmlRpcException {
-        String url = "http://localhost:8079"; // work with odoo.com account!!
-        String db = "odoo9";
-        String username = "admin";
-        String password = "admin";
-        System.out.println("Get database list");
-        System.out.println("Login");
-        System.out.println("--------------");
-        int uid = login(url,db,username,password);
-        if (uid >0) {
-            System.out.printf(String.valueOf(uid));
-            System.out.println("Login Ok");
-        } else {
-            System.out.println("Login Fail");
-        }
+            System.out.println("Protocol: "+url.getProtocol());
+            System.out.println("Host Name: "+url.getHost());
+            System.out.println("Port Number: "+url.getPort());
+            System.out.println("File Name: "+url.getFile());
 
+        }catch(Exception e){System.out.println(e);}
     }
+
     static int login(String url, String db, String login, String password) throws XmlRpcException, MalformedURLException {
         XmlRpcClient client = new XmlRpcClient();
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
